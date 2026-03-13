@@ -18,18 +18,18 @@ const ExportToCSVButton = ({ roundId }: { roundId: string }) => {
                 credentials: 'include',
 
             })
+
+            if(!res.ok) {
+                throw new Error(`Failed to export: ${res.status} ${res.statusText}`)
+            }
+
             const blob = await res.blob()
             const url = window.URL.createObjectURL(blob)
             const a = document.createElement('a')
             a.download = `round - ${roundId}.csv`
             a.href = url
             a.click()
-            window.URL.revokeObjectURL(url)
-            if (res.ok) {
-                console.log('Exported')
-            } else {
-                console.error('Failed to export')
-            }
+            setTimeout(() => window.URL.revokeObjectURL(url), 1000);
         } catch (e) {
             console.error(e)
             setError((e as Error).message)

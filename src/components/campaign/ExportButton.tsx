@@ -8,6 +8,7 @@ const ExportToCSVButton = ({ roundId }: { roundId: string }) => {
     const exportToCSV = async () => {
         try {
             setLoading(true)
+            setError(null)
             const res = await fetch(`/round/${roundId}/results/csv`, {
                 headers: {
                     'Content-Type': 'text/csv',
